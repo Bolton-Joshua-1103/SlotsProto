@@ -127,18 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CombinationEvaluator.cpp" />
     <ClCompile Include="PayLine.cpp" />
     <ClCompile Include="Reel.cpp" />
     <ClCompile Include="ReelView.cpp" />
     <ClCompile Include="SlotMachine.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SymbolCombination.cpp" />
     <ClCompile Include="Symbols.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CombinationEvaluator.h" />
     <ClInclude Include="PayLine.h" />
     <ClInclude Include="Reel.h" />
     <ClInclude Include="ReelView.h" />
     <ClInclude Include="SlotMachine.h" />
+    <ClInclude Include="SymbolCombination.h" />
     <ClInclude Include="Symbols.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

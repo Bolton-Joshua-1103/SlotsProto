@@ -50,24 +50,27 @@ void ReelView::printPayLineCombos() const {
    int payline_count{ 1 };
    for (auto& paylinecombo : payLineCombos) {
       std::cout << "PAYLINE " << payline_count << ": ";
-      for (int index_ref{ 0 }; index_ref < paylinecombo.size(); ++index_ref) {
-         std::cout << symbolToString(paylinecombo[index_ref]) << " ";
+      for (int index_ref{ 0 }; index_ref < paylinecombo.symbols.size(); ++index_ref) {
+         std::cout << symbolToString(paylinecombo.symbols[index_ref]) << " ";
       }
       payline_count++;
       std::cout << std::endl;
    }
 }
 
+const std::vector<SymbolCombination> ReelView::getPayLineCombos() const {
+   return payLineCombos;
+}
+
 void ReelView::populatePayLineCombos() {
    for (size_t payLineIndex{ 0 }; payLineIndex < payLines.size(); payLineIndex++) {
-      payLineCombos.push_back(std::vector<symbol>{}); //Make a payline combo for each payline
+      payLineCombos.push_back(SymbolCombination{}); //Make a payline combo for each payline
       const auto& currentPayLine = payLines[payLineIndex].getIndicies();
       auto& currentPayLineCombo = payLineCombos[payLineIndex];
       for (size_t reel_index{ 0 }; reel_index < currentPayLine.size(); reel_index++) {
          //lopoing throough every reel and need to check correct index
          auto& payLineIndex = currentPayLine[reel_index];
-         /*currentPayLineCombo.push_back(viewingVector[reel_index][payLineIndex]);*/
-         currentPayLineCombo.push_back(viewingVector[payLineIndex][reel_index]);
+         currentPayLineCombo.symbols.push_back(viewingVector[payLineIndex][reel_index]);
       }
    }
 }
@@ -79,8 +82,7 @@ void ReelView::updatePayLineCombos() {
       for (size_t reel_index{ 0 }; reel_index < currentPayLine.size(); reel_index++) {
          //lopoing throough every reel and need to check correct index
          auto& payLineIndex = currentPayLine[reel_index];
-         //currentPayLineCombo[reel_index] = viewingVector[reel_index][payLineIndex];
-         currentPayLineCombo[reel_index] = viewingVector[payLineIndex][reel_index];
+         currentPayLineCombo.symbols[reel_index] = viewingVector[payLineIndex][reel_index];
       }
    }
 }
@@ -99,7 +101,7 @@ void ReelView::printReelView(const std::vector<Reel>& reels, const std::vector<u
 {
    //Always prints a square viewing window rows=#ofreels
    updateReelView(reels, reelStops); //Maybe have a flag to see if we need to do this. If nothing has changed (like no one has pulled the lever, then this in not necessary)
-   updatePayLineCombos();
+   updatePayLineCombos(); //Needs to be called after updateReelView, allows for win/loss checking
    for (const auto& vec : viewingVector) {
       for (const auto& symbol : vec) {
          std::cout << symbolToString(symbol) << " ";

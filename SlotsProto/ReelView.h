@@ -3,6 +3,7 @@
 #include "Reel.h"
 #include "PayLine.h"
 #include "Symbols.h"
+#include "SymbolCombination.h"
 class ReelView
 {
 public:
@@ -13,6 +14,7 @@ public:
    void updateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
 
    void printPayLineCombos() const;
+   const std::vector<SymbolCombination> getPayLineCombos() const;
 
 private:
    void populateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
@@ -26,7 +28,7 @@ private:
 
    std::vector<std::vector<symbol>> viewingVector;
    std::vector<PayLine> payLines;
-   std::vector<std::vector<symbol>> payLineCombos; //Reads symbols on paylines to generate combinations of symbols to check for winning combos
+   std::vector<SymbolCombination> payLineCombos; //Reads symbols on paylines to generate combinations of symbols to check for winning combos
 
 };
 
