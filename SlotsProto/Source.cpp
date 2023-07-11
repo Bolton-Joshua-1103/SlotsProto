@@ -8,7 +8,7 @@ bool done = false;
 
 int main() {
 
-   SlotMachine myslot{3};
+   SlotMachine myslot{5};
    myslot.printViewingWindow();
 
    char cmd{};

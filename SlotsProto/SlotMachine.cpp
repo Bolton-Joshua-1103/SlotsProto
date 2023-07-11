@@ -11,7 +11,7 @@ SlotMachine::SlotMachine(int total_reels) {
       reelStops.push_back(0);
    }
    reelview = ReelView(reels, reelStops); //I keep doing this. is this okay?
-   //printReelInfo();
+   //printReelInfo(); //For debugging purposes
 } 
 
 void SlotMachine::printViewingWindow()
@@ -19,6 +19,7 @@ void SlotMachine::printViewingWindow()
    std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
    reelview.printReelView(reels, reelStops);
    std::cout << "---END VIEWING WINDOW---" << std::endl;
+   reelview.printPayLineCombos();
 }
 
 void SlotMachine::spinReels()
