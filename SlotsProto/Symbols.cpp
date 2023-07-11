@@ -1,5 +1,5 @@
 #include "Symbols.h"
-#include <string>
+
 
 std::string symbolToString(const symbol& symbol) {
    switch (symbol)
@@ -8,7 +8,7 @@ std::string symbolToString(const symbol& symbol) {
       return "APP";
       break;
    case(symbol::Banana):
-      return "Ban";
+      return "BAN";
       break;
    case(symbol::Cherry):
       return "CHE";

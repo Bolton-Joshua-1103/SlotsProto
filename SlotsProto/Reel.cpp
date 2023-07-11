@@ -1,13 +1,12 @@
 #include "Reel.h"
 
-Reel::Reel() {
-   for (size_t index{ 0 }; index < default_number_stops; ++index) {
-      strip.push_back(static_cast<int>(index));
-   }
-}
+Reel::Reel() : Reel::Reel(default_number_stops) {}
 
 Reel::Reel(int num_stops) {
-   for (size_t index{ 0 }; index < num_stops; ++index) {
-      strip.push_back(static_cast<int>(index));
+   if (num_stops > 10 || num_stops < 2) {
+      num_stops = default_number_stops; //the num_stops requested is invalid
+   }
+   for (int symbolInt = 0; symbolInt < num_stops; symbolInt++) {
+      strip.push_back(static_cast<symbol>(symbolInt));
    }
 }

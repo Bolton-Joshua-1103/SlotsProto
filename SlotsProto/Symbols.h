@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+
 enum class symbol : int {
    Apple = 0,
    Banana = 1,
@@ -11,3 +13,5 @@ enum class symbol : int {
    Peach = 8,
    Pineapple = 9
 };
+
+std::string symbolToString(const symbol& symbol);

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Reel.h"
 #include "PayLine.h"
+#include "Symbols.h"
 class ReelView
 {
 public:
@@ -16,7 +17,7 @@ private:
    // START HERE WHEN YOU GET BACK
    void EvaluatePayLines();//Uses the ReelView and the PayLines collection to see if there are any wins
    void printPayLineIndices();
-   std::vector<std::vector<int>> viewingVector;
+   std::vector<std::vector<symbol>> viewingVector;
    std::vector<PayLine> payLines;
 
 };

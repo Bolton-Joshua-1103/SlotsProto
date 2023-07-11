@@ -45,7 +45,7 @@ void SlotMachine::printReelInfo()
    for ( auto & reel : reels) {
       std::cout << "REEL: ";
       for (const auto& symbol : reel.getStrip()) {
-         std::cout << symbol << " ";
+         std::cout << symbolToString(symbol) << " ";
       }
       std::cout << std::endl;
    }

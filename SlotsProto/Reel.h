@@ -1,16 +1,17 @@
 #pragma once
 #include <vector>
+#include "Symbols.h"
 class Reel
 {
 public:
    Reel();
    Reel(int);
-   const std::vector<int>& getStrip() const {
+   const std::vector<symbol>& getStrip() const {
       return strip;
    };
    
 private:
    static constexpr int default_number_stops = 10;
-   std::vector<int> strip;
+   std::vector<symbol> strip;
 };
 

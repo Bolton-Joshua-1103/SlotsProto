@@ -13,7 +13,7 @@ ReelView::ReelView(const std::vector<Reel>& reels, const std::vector<unsigned in
 
 void ReelView::populateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops) {
    for (unsigned int row_index{ 0 }; row_index < reels.size(); ++row_index) {
-      viewingVector.push_back(std::vector<int>{});//This creates a vector for each row
+      viewingVector.push_back(std::vector<symbol>{});//This creates a vector for each row
       for (unsigned int reel_index{ 0 }; reel_index < reels.size(); ++reel_index) {
          const auto& current_strip = reels[reel_index].getStrip();
          const auto& strip_stop = (reelStops[reel_index] + row_index) % current_strip.size(); //row_index increments the stop based on the row
@@ -63,7 +63,7 @@ void ReelView::printReelView(const std::vector<Reel>& reels, const std::vector<u
    updateReelView(reels, reelStops); //Maybe have a flag to see if we need to do this. If nothing has changed (like no one has pulled the lever, then this in not necessary)
    for (const auto& vec : viewingVector) {
       for (const auto& symbol : vec) {
-         std::cout << symbol << " ";
+         std::cout << symbolToString(symbol) << " ";
       }
       std::cout << std::endl;
    }
