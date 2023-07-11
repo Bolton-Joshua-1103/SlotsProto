@@ -8,7 +8,7 @@ PayLine::PayLine(std::function<int(int)> index_func, size_t starting_index, cons
    //Maybe needs to be an assert here or change return type to unsigned int.
    //The function returning a negative int will s
    for (int reel_index{ 0 }; reel_index < reel_view_length; reel_index++) {
-      indicies.push_back(index_func(starting_index));
+      indicies.push_back(index_func(static_cast<int>(starting_index)));
    }
 }
 

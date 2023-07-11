@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+
+static unsigned int unique_symbol_count = 10;
 enum class symbol : int {
    Apple = 0,
    Banana = 1,
