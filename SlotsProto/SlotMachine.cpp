@@ -82,5 +82,5 @@ void SlotMachine::printReelInfo()
 
 void SlotMachine::upDatePayPackRate()
 {
-   pay_back_rate = credits_won / credits_used;
+   pay_back_rate = (float)credits_won / (float)credits_used;
 }

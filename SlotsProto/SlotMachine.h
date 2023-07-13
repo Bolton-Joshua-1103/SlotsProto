@@ -27,7 +27,7 @@ private:
 
    int credits_used{ 0 };
    int credits_won{ 0 };
-   double pay_back_rate{ 0 };
+   float pay_back_rate{ 0 };
 
    int price_per_payline;
    int credits;
