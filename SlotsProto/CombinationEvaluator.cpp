@@ -16,7 +16,7 @@ CombinationEvaluator::CombinationEvaluator(int reelcount)
    for (unsigned int symbolInt = 0; symbolInt < unique_symbol_count; symbolInt++) {
       SymbolCombination jackPotCombo{};
       for (int reelIndex{ 0 }; reelIndex < reelcount; reelIndex++) {
-         jackPotCombo.symbols.push_back(static_cast<symbol>(symbolInt));
+         jackPotCombo.symbols.push_back(static_cast<symbol>(symbolInt));//Creates SymbolCombinations of all the same symbols according to the number of the reels
       }
       evalmap.insert({ jackPotCombo, 100 });
    }
