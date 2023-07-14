@@ -2,34 +2,37 @@
 #include <iostream>
 #include <random>
 
-SlotMachine::SlotMachine() : SlotMachine::SlotMachine(DefaultReelCount) {}
+SlotMachine::SlotMachine() : SlotMachine::SlotMachine(DefaultReelCount, "Default") {}
+SlotMachine::SlotMachine(std::string _slot_id) : SlotMachine::SlotMachine(DefaultReelCount, _slot_id) {}
+SlotMachine::SlotMachine(int total_reels) : SlotMachine::SlotMachine(total_reels, "Default") {}
 
-
-SlotMachine::SlotMachine(int total_reels) {
+SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id) 
+   : evaluator{ total_reels }, tracker{configuration.get_starting_credits(), _slot_id} {
+   //Loading reels with 0-9, can be changed
    for (int reelindex = 0; reelindex < total_reels; reelindex++) {
       reels.push_back(Reel{});
       reelStops.push_back(0);
    }
-   reelview = ReelView(reels, reelStops); 
-   evaluator = CombinationEvaluator(total_reels);
-   configuration = NumericalConfigurator{};
-   tracker = CreditStateTracker(configuration.get_starting_credits());
+   reelview = ReelView{ reels, reelStops };
+   //Configurator is default constructed
 } 
 
+
 void SlotMachine::printViewingWindow() {
-   static int rounds_won_so_far = 0;
+   static size_t rounds_won_so_far = 0;
    std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
    reelview.printReelView(reels, reelStops);
    std::cout << "---END VIEWING WINDOW---" << std::endl;
    std::cout << "AVAILABLE CREDITS: " << tracker.getCredits() << std::endl;
-   
+   std::cout << std::endl;
    std::cout << "Credits Spent: " << tracker.getCreditsUsed() << std::endl;
    std::cout << "Credits Won: " << tracker.getCreditsWon() << std::endl;
    std::cout << "Rounds Played: " << tracker.getRoundsPlayed() << std::endl;
    std::cout << "Rounds Won: " << tracker.getRoundsWon() << std::endl;
-
+   std::cout << std::endl;
    std::cout << "Current PayBackRate: " << tracker.getPayBackRate() << std::endl;
    std::cout << "Current HitRate: " << tracker.getHitRate() << std::endl;
+   std::cout << std::endl;
    reelview.printPayLineCombos();
    if (rounds_won_so_far < tracker.getRoundsWon()) {
       std::cout << "\n \n \n YOU WON!!!! \n YOU WON!!!! \n YOU WON!!!!" << std::endl;

@@ -1,10 +1,17 @@
 #include "CreditStateTracker.h"
 
-CreditStateTracker::CreditStateTracker() : credits{ 0 }
+CreditStateTracker::CreditStateTracker() 
+   : CreditStateTracker(0 , "Default")
 {
 }
 
-CreditStateTracker::CreditStateTracker(const size_t& starting_credits) : credits(starting_credits) {
+CreditStateTracker::CreditStateTracker(size_t starting_credits, std::string  _slot_id) 
+   : credits(starting_credits), slot_id(_slot_id) {
+   configureLoggingFile();  
+}
+
+CreditStateTracker::~CreditStateTracker() {
+   outputfile.close();
 }
 
 bool CreditStateTracker::gamePlayed(const size_t& bet_price)
@@ -29,9 +36,12 @@ void CreditStateTracker::gameWon(const size_t& _credits_won)
 
 void CreditStateTracker::updateGameStats()
 {
+   //This is supposed to be called after a game cycle has been completed
    updatePayBackRate();
    updateHitRate();
+   logCurrentState();
 }
+
 
 void CreditStateTracker::updatePayBackRate()
 {
@@ -41,4 +51,22 @@ void CreditStateTracker::updatePayBackRate()
 void CreditStateTracker::updateHitRate()
 {
    hit_rate = (float)rounds_won / (float)rounds_played;
+}
+
+void CreditStateTracker::configureLoggingFile()
+{
+   outputfile.open(slot_id + "data"); //Open file
+   //Print variable headers
+   outputfile << "SlotID" << "\t" << "RoundsPlayed" << "\t" << "RoundsWon" << "\t" << "CreditsUsed"
+      << "\t" << "CreditsWon" << "\t" << "PayBackRate" << "\t" << "HitRate" << "\n";
+}
+
+void CreditStateTracker::logCurrentState()
+{
+   if (outputfile.is_open()) {
+      outputfile << slot_id << "\t" << rounds_played << "\t" << rounds_won << "\t" << credits_used
+         << "\t" << credits_won << "\t" << pay_back_rate << "\t" << hit_rate << "\n";
+   }
+   else std::cout << "OUTPUT FILE IS NOT OPEN" << std::endl;
+
 }

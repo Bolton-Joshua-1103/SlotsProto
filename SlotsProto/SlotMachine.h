@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Reel.h"
 #include "ReelView.h"
 #include "CombinationEvaluator.h"
@@ -10,7 +11,9 @@ class SlotMachine
 {
 public:
    SlotMachine();
-   SlotMachine(int);
+   SlotMachine(const std::string);
+   SlotMachine(const int);
+   SlotMachine(const int, const std::string);
 
    void printViewingWindow();
    void spinReels();

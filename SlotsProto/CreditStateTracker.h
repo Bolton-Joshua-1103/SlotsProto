@@ -1,11 +1,17 @@
 #pragma once
+#include <string>
+#include <fstream>
+#include <iostream>
+
 class CreditStateTracker
 {
 public:
    
    //Constructors, always needs a starting amount of credits (which is determiend from the configuration)
    CreditStateTracker();
-   CreditStateTracker(const size_t& starting_credits);
+   CreditStateTracker(size_t, std::string);
+
+   ~CreditStateTracker();
 
    bool gamePlayed(const size_t& bet_price);
    void gameWon(const size_t& credits_won);
@@ -23,7 +29,13 @@ public:
    //Get functions for calculated numbers
    float getPayBackRate() const { return pay_back_rate; }
    float getHitRate() const { return hit_rate; }
+
+   //CreditStateTracker operator=(const CreditStateTracker& newCST);
 private:
+
+   //Slot identification and logging
+   std::string slot_id;
+   std::ofstream outputfile;
 
    //Tracked Numbers
    int credits; // THIS NEEDS TO BE A SIZE_T EVENTUALLY. THIS IS OUR COMPILER WARNING ABOUT SIZE_T TO INT CONVERSION. CHANGE WHEN NOT TESTING.
@@ -40,5 +52,8 @@ private:
 
    void updatePayBackRate();
    void updateHitRate();
+
+   void configureLoggingFile();
+   void logCurrentState();
 };
 
