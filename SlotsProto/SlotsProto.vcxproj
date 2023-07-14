@@ -129,6 +129,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CombinationEvaluator.cpp" />
+    <ClCompile Include="CreditStateTracker.cpp" />
+    <ClCompile Include="NumericalConfigurator.cpp" />
     <ClCompile Include="PayLine.cpp" />
     <ClCompile Include="Reel.cpp" />
     <ClCompile Include="ReelView.cpp" />
@@ -139,6 +141,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CombinationEvaluator.h" />
+    <ClInclude Include="CreditStateTracker.h" />
+    <ClInclude Include="NumericalConfigurator.h" />
     <ClInclude Include="PayLine.h" />
     <ClInclude Include="Reel.h" />
     <ClInclude Include="ReelView.h" />

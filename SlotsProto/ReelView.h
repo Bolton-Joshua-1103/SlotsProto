@@ -10,12 +10,13 @@ public:
    ReelView();
    ReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);//In order to print anything out you need to know about the reels and the reel stops.
    
-   void printReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
+   void printReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops) const;
    void updateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
 
    void printPayLineCombos() const;
-   const std::vector<SymbolCombination> getPayLineCombos() const;
+   const std::vector<SymbolCombination> getPayLineCombos() const; //ADD REF HERE PROBABLY
 
+   size_t payLineCount() const { return payLines.size(); }
 private:
    void populateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
    

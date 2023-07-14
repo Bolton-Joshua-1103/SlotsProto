@@ -95,13 +95,14 @@ void ReelView::updateReelView(const std::vector<Reel>& reels, const std::vector<
          viewingVector[row_index][reel_index] = current_strip[strip_stop];
       }
    }
+   updatePayLineCombos();
 }
 
-void ReelView::printReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops)
+void ReelView::printReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops) const
 {
    //Always prints a square viewing window rows=#ofreels
-   updateReelView(reels, reelStops); //Maybe have a flag to see if we need to do this. If nothing has changed (like no one has pulled the lever, then this in not necessary)
-   updatePayLineCombos(); //Needs to be called after updateReelView, allows for win/loss checking
+   //updateReelView(reels, reelStops); //Maybe have a flag to see if we need to do this. If nothing has changed (like no one has pulled the lever, then this in not necessary)
+   //updatePayLineCombos(); //Needs to be called after updateReelView, allows for win/loss checking
    for (const auto& vec : viewingVector) {
       for (const auto& symbol : vec) {
          std::cout << symbolToString(symbol) << " ";

@@ -20,12 +20,11 @@ CombinationEvaluator::CombinationEvaluator(int reelcount)
       }
       evalmap.insert({ jackPotCombo, 100 });
    }
-   std::cout << "SIZE OF EVALUATOR: " << evalmap.size() << std::endl;
 }
 
-int CombinationEvaluator::checkPayLineCombinations(const std::vector<SymbolCombination>& payLineCombos)
+size_t CombinationEvaluator::checkPayLineCombinations(const std::vector<SymbolCombination>& payLineCombos)
 {
-   int jackpot_running_total = { 0 };
+   size_t jackpot_running_total = { 0 };
    for (const auto& symbol_combination : payLineCombos) {
       auto combo_map_it = evalmap.find(symbol_combination);
       if (combo_map_it != evalmap.end()) {

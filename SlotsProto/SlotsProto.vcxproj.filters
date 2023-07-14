@@ -39,6 +39,12 @@
     <ClCompile Include="SymbolCombination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="NumericalConfigurator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditStateTracker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SlotMachine.h">
@@ -60,6 +66,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SymbolCombination.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NumericalConfigurator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CreditStateTracker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

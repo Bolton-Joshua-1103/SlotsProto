@@ -5,24 +5,36 @@
 SlotMachine::SlotMachine() : SlotMachine::SlotMachine(DefaultReelCount) {}
 
 
-SlotMachine::SlotMachine(int total_reels) : price_per_payline(Default_Price_Per_PayLine), credits(Default_Starting_Credits) {
+SlotMachine::SlotMachine(int total_reels) {
    for (int reelindex = 0; reelindex < total_reels; reelindex++) {
       reels.push_back(Reel{});
       reelStops.push_back(0);
    }
-   reelview = ReelView(reels, reelStops); //I keep doing this. is this okay?
-   //printReelInfo(); //For debugging purposes
+   reelview = ReelView(reels, reelStops); 
    evaluator = CombinationEvaluator(total_reels);
+   configuration = NumericalConfigurator{};
+   tracker = CreditStateTracker(configuration.get_starting_credits());
 } 
 
-void SlotMachine::printViewingWindow()
-{
+void SlotMachine::printViewingWindow() {
+   static int rounds_won_so_far = 0;
    std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
    reelview.printReelView(reels, reelStops);
    std::cout << "---END VIEWING WINDOW---" << std::endl;
-   std::cout << "AVAILABLE CREDITS: " << credits << std::endl;
-   std::cout << "Current PayBackRate: " << pay_back_rate << std::endl;
-   //reelview.printPayLineCombos();
+   std::cout << "AVAILABLE CREDITS: " << tracker.getCredits() << std::endl;
+   
+   std::cout << "Credits Spent: " << tracker.getCreditsUsed() << std::endl;
+   std::cout << "Credits Won: " << tracker.getCreditsWon() << std::endl;
+   std::cout << "Rounds Played: " << tracker.getRoundsPlayed() << std::endl;
+   std::cout << "Rounds Won: " << tracker.getRoundsWon() << std::endl;
+
+   std::cout << "Current PayBackRate: " << tracker.getPayBackRate() << std::endl;
+   std::cout << "Current HitRate: " << tracker.getHitRate() << std::endl;
+   reelview.printPayLineCombos();
+   if (rounds_won_so_far < tracker.getRoundsWon()) {
+      std::cout << "\n \n \n YOU WON!!!! \n YOU WON!!!! \n YOU WON!!!!" << std::endl;
+      rounds_won_so_far = tracker.getRoundsWon();
+   }
 
 }
 
@@ -46,27 +58,25 @@ void SlotMachine::spinReels()
 
 void SlotMachine::checkWin()
 {
-   int jackpot_total = evaluator.checkPayLineCombinations(reelview.getPayLineCombos());
+   //This call below assumes you bet all paylines. Can change later (@@@)
+   size_t jackpot_total = evaluator.checkPayLineCombinations(reelview.getPayLineCombos());
    if (jackpot_total > 0) {
-      credits += jackpot_total;
-      credits_won += jackpot_total;
+      tracker.gameWon(jackpot_total);
    }
+   
 }
 
 void SlotMachine::playRound()
 {
-   //Give them 3 credits to start. Each bet will be 3 credits. 1 credits on each payline
-   //The math should be a 1:100 chance of winning as there are 1 jackpots each with a 1/1000 chance
-   //To start this means that each jackpot should pay back 103 credits. This should be 100% payback?
-   // This is what I need to test next.
-   int cost = price_per_payline * reelview.getPayLineCombos().size();
-   credits -= cost;
-   credits_used += cost;
+   if (tracker.gamePlayed(configuration.get_cost_per_payline() * reelview.payLineCount())) {
+      spinReels();
+      reelview.updateReelView(reels, reelStops); //This updates the reelview with the newly spun reels
+      checkWin();//Checks to see if new reel combination is winning and pays credits back
+      tracker.updateGameStats(); //Updates teh game states after a round has been played and winning has been determined
+      printViewingWindow(); //Prints out everything to window
 
-   spinReels();
-   printViewingWindow();
-   checkWin();
-   upDatePayPackRate();
+   }
+
 }
 
 void SlotMachine::printReelInfo()
@@ -80,7 +90,3 @@ void SlotMachine::printReelInfo()
    }
 }
 
-void SlotMachine::upDatePayPackRate()
-{
-   pay_back_rate = (float)credits_won / (float)credits_used;
-}
