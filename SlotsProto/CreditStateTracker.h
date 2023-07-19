@@ -16,6 +16,7 @@ public:
    bool gamePlayed(const size_t& bet_price);
    void gameWon(const size_t& credits_won);
    void updateGameStats();
+   void printgameStats();
 
    //Get Function for credits
    int getCredits() const { return credits; }

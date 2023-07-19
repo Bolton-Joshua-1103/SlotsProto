@@ -46,10 +46,25 @@ void ReelView::printPayLineIndices()
    }
 }
 
+void ReelView::activatePayLines(const int& desired_paylines)
+{
+   for (size_t payline_index{ 0 }; payline_index < desired_paylines; ++payline_index) {
+      payLines[payline_index].setActive(true);
+   }
+}
+
+void ReelView::deactivatePayLines()
+{
+   for (auto& payline : payLines) {
+      payline.setActive(false);
+   }
+}
+
 void ReelView::printPayLineCombos() const {
    int payline_count{ 1 };
    for (auto& paylinecombo : payLineCombos) {
-      std::cout << "PAYLINE " << payline_count << ": ";
+
+      std::cout << "PAYLINE " << payline_count << " [" << (paylinecombo.isActive() ? "ACTIVE] :" : "INACTIVE] :");
       for (int index_ref{ 0 }; index_ref < paylinecombo.symbols.size(); ++index_ref) {
          std::cout << symbolToString(paylinecombo.symbols[index_ref]) << " ";
       }
@@ -62,14 +77,30 @@ const std::vector<SymbolCombination> ReelView::getPayLineCombos() const {
    return payLineCombos;
 }
 
+int ReelView::validatePayLineNumInput(const char& cmd)
+{
+   //This function takes the cmd line input and checks to see (1) if it is numerical
+   //(2) if it's a valid input for the desired number of paylines bet
+   // If it is too few paylines or too many paylines it defaults to max paylines -> maxbet
+   int num_paylines_bet{ 0 };
+   if (isdigit(cmd)) {
+      num_paylines_bet = static_cast<int>(cmd) - static_cast<int>('0');
+   }
+   if (num_paylines_bet < 1 || num_paylines_bet > payLineCount()) {
+      num_paylines_bet = payLineCount();// If an invalid number of paylines is entered then just do max bet
+   }
+   return num_paylines_bet;
+}
+
 void ReelView::populatePayLineCombos() {
    for (size_t payLineIndex{ 0 }; payLineIndex < payLines.size(); payLineIndex++) {
       payLineCombos.push_back(SymbolCombination{}); //Make a payline combo for each payline
-      const auto& currentPayLine = payLines[payLineIndex].getIndicies();
+      const auto& currentPayLine = payLines[payLineIndex];
       auto& currentPayLineCombo = payLineCombos[payLineIndex];
+      currentPayLineCombo.setActive(currentPayLine.isActive());
       for (size_t reel_index{ 0 }; reel_index < currentPayLine.size(); reel_index++) {
-         //lopoing throough every reel and need to check correct index
-         auto& payLineIndex = currentPayLine[reel_index];
+         //lopoing throough every reel and need to assign from correct index
+         auto& payLineIndex = currentPayLine.getIndicies()[reel_index];
          currentPayLineCombo.symbols.push_back(viewingVector[payLineIndex][reel_index]);
       }
    }
@@ -77,11 +108,13 @@ void ReelView::populatePayLineCombos() {
 
 void ReelView::updatePayLineCombos() {
    for (size_t payLineIndex{ 0 }; payLineIndex < payLines.size(); payLineIndex++) {
-      const auto& currentPayLine = payLines[payLineIndex].getIndicies();
+      const auto& currentPayLine = payLines[payLineIndex];
       auto& currentPayLineCombo = payLineCombos[payLineIndex];
+      currentPayLineCombo.setActive(currentPayLine.isActive());
+      //Maybe consider making PayLineCombo constructor that takes a PayLine, then moving or emplacing the PayLine Combo into the container
       for (size_t reel_index{ 0 }; reel_index < currentPayLine.size(); reel_index++) {
          //lopoing throough every reel and need to check correct index
-         auto& payLineIndex = currentPayLine[reel_index];
+         auto& payLineIndex = currentPayLine.getIndicies()[reel_index];
          currentPayLineCombo.symbols[reel_index] = viewingVector[payLineIndex][reel_index];
       }
    }

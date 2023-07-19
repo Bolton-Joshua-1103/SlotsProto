@@ -42,6 +42,20 @@ void CreditStateTracker::updateGameStats()
    logCurrentState();
 }
 
+void CreditStateTracker::printgameStats()
+{
+   std::cout << "AVAILABLE CREDITS: " << getCredits() << std::endl;
+   std::cout << std::endl;
+   std::cout << "Credits Spent: " << getCreditsUsed() << std::endl;
+   std::cout << "Credits Won: " << getCreditsWon() << std::endl;
+   std::cout << "Rounds Played: " << getRoundsPlayed() << std::endl;
+   std::cout << "Rounds Won: " << getRoundsWon() << std::endl;
+   std::cout << std::endl;
+   std::cout << "Current PayBackRate: " << getPayBackRate() << std::endl;
+   std::cout << "Current HitRate: " << getHitRate() << std::endl;
+   std::cout << std::endl;
+}
+
 
 void CreditStateTracker::updatePayBackRate()
 {

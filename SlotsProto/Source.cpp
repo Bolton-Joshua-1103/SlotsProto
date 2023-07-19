@@ -1,5 +1,6 @@
 #include <iostream>
 #include <conio.h>
+#include <cctype>
 #include "SlotMachine.h"
 
 
@@ -22,7 +23,7 @@ int main() {
             done = true;
             break;
          default:
-            myslot.playRound();
+            myslot.playRound(cmd);
             break;
          }
       }

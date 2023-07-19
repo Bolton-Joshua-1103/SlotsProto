@@ -13,7 +13,7 @@ SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id)
       reels.push_back(Reel{});
       reelStops.push_back(0);
    }
-   reelview = ReelView{ reels, reelStops };
+   reelview = ReelView{ reels, reelStops }; //Needs to be done after the reels are initialized (the for loop above)
    //Configurator is default constructed
 } 
 
@@ -23,22 +23,20 @@ void SlotMachine::printViewingWindow() {
    std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
    reelview.printReelView(reels, reelStops);
    std::cout << "---END VIEWING WINDOW---" << std::endl;
-   std::cout << "AVAILABLE CREDITS: " << tracker.getCredits() << std::endl;
-   std::cout << std::endl;
-   std::cout << "Credits Spent: " << tracker.getCreditsUsed() << std::endl;
-   std::cout << "Credits Won: " << tracker.getCreditsWon() << std::endl;
-   std::cout << "Rounds Played: " << tracker.getRoundsPlayed() << std::endl;
-   std::cout << "Rounds Won: " << tracker.getRoundsWon() << std::endl;
-   std::cout << std::endl;
-   std::cout << "Current PayBackRate: " << tracker.getPayBackRate() << std::endl;
-   std::cout << "Current HitRate: " << tracker.getHitRate() << std::endl;
-   std::cout << std::endl;
+   tracker.printgameStats();
    reelview.printPayLineCombos();
+
    if (rounds_won_so_far < tracker.getRoundsWon()) {
       std::cout << "\n \n \n YOU WON!!!! \n YOU WON!!!! \n YOU WON!!!!" << std::endl;
       rounds_won_so_far = tracker.getRoundsWon();
    }
 
+}
+
+void SlotMachine::printInputMenu()
+{
+   std::cout << "PRESS 'q' TO QUIT" << std::endl;
+   std::cout << "BET DESIRED NUMBER OF PAYLINES (defaulted to max bet with invalid input)" << std::endl;
 }
 
 void SlotMachine::spinReels()
@@ -59,6 +57,8 @@ void SlotMachine::spinReels()
    }
 }
 
+
+
 void SlotMachine::checkWin()
 {
    //This call below assumes you bet all paylines. Can change later (@@@)
@@ -69,9 +69,17 @@ void SlotMachine::checkWin()
    
 }
 
-void SlotMachine::playRound()
+void SlotMachine::playRound(const char& cmd)
 {
-   if (tracker.gamePlayed(configuration.get_cost_per_payline() * reelview.payLineCount())) {
+   //Need to know how many paylines were bet. Maybe a parameter?
+   // Once we know how many paylines are bet on we just activate the paylines
+   // in ascending order. IF they bet 2 paylines then they always bet for 1, 2. NEver 3
+   //This means I need to activate desired paylines then deactive once we are done spinning
+   int num_paylines_bet = reelview.validatePayLineNumInput(cmd);
+   reelview.activatePayLines(num_paylines_bet);
+   int total_bet_price = num_paylines_bet * configuration.get_cost_per_payline();
+
+   if (tracker.gamePlayed(total_bet_price)) {
       spinReels();
       reelview.updateReelView(reels, reelStops); //This updates the reelview with the newly spun reels
       checkWin();//Checks to see if new reel combination is winning and pays credits back
@@ -79,7 +87,7 @@ void SlotMachine::playRound()
       printViewingWindow(); //Prints out everything to window
 
    }
-
+   reelview.deactivatePayLines(); // Needs to be called after a round has been played
 }
 
 void SlotMachine::printReelInfo()

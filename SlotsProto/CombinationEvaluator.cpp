@@ -18,7 +18,8 @@ CombinationEvaluator::CombinationEvaluator(int reelcount)
       for (int reelIndex{ 0 }; reelIndex < reelcount; reelIndex++) {
          jackPotCombo.symbols.push_back(static_cast<symbol>(symbolInt));//Creates SymbolCombinations of all the same symbols according to the number of the reels
       }
-      evalmap.insert({ jackPotCombo, 100 });
+      int jackPotAmount = pow(10, reelcount - 1); //This creates a 100% PBR, using for testing. This evaluator should probably be populated from a file.
+      evalmap.insert({ jackPotCombo, jackPotAmount });
    }
 }
 
@@ -26,9 +27,12 @@ size_t CombinationEvaluator::checkPayLineCombinations(const std::vector<SymbolCo
 {
    size_t jackpot_running_total = { 0 };
    for (const auto& symbol_combination : payLineCombos) {
-      auto combo_map_it = evalmap.find(symbol_combination);
-      if (combo_map_it != evalmap.end()) {
-         jackpot_running_total += combo_map_it->second;
+      if (symbol_combination.isActive()) {
+         auto combo_map_it = evalmap.find(symbol_combination);
+         if (combo_map_it != evalmap.end()) {
+
+            jackpot_running_total += combo_map_it->second;
+         }
       }
    }
    return jackpot_running_total;

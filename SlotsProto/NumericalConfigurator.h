@@ -21,7 +21,7 @@ public:
 private:
 
    //Configured numbers
-   static constexpr int default_starting_credits = 3;
+   static constexpr int default_starting_credits = 0;
    static constexpr int default_cost_per_payline = 1;
 
    size_t cost_per_payline;

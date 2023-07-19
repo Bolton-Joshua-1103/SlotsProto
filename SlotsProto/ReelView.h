@@ -15,13 +15,17 @@ public:
 
    void printPayLineCombos() const;
    const std::vector<SymbolCombination> getPayLineCombos() const; //ADD REF HERE PROBABLY
-
+   int validatePayLineNumInput(const char& cmd);
+   void activatePayLines(const int&);
+   void deactivatePayLines();  
    size_t payLineCount() const { return payLines.size(); }
+
 private:
    void populateReelView(const std::vector<Reel>& reels, const std::vector<unsigned int>& reelStops);
    
    void populatePayLines();
    void printPayLineIndices();
+
 
    void populatePayLineCombos();
    void updatePayLineCombos();

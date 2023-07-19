@@ -16,9 +16,8 @@ public:
    SlotMachine(const int, const std::string);
 
    void printViewingWindow();
-   void spinReels();
-   void checkWin();
-   void playRound();
+   void printInputMenu();
+   void playRound(const char&);
 
 private:
 
@@ -32,6 +31,8 @@ private:
    NumericalConfigurator configuration;
    CreditStateTracker tracker;
 
-   void printReelInfo();
+   void spinReels();
+   void checkWin();
+   void printReelInfo(); //Prints reel contents to console. Assumes uniform reel size
 };
 
