@@ -14,9 +14,9 @@ public:
    SlotMachine(const std::string);
    SlotMachine(const int);
    SlotMachine(const int, const std::string);
+   SlotMachine(const int, const std::string, const bool);
 
    void printViewingWindow();
-   void printInputMenu();
    void playRound(const char&);
 
 private:
@@ -24,7 +24,7 @@ private:
    static constexpr int DefaultReelCount = 3;
    std::vector<Reel> reels;
    std::vector<unsigned int> reelStops;
-
+   bool verbose = true;
 
    ReelView reelview;
    CombinationEvaluator evaluator;

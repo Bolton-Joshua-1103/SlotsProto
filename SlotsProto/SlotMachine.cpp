@@ -5,9 +5,9 @@
 SlotMachine::SlotMachine() : SlotMachine::SlotMachine(DefaultReelCount, "Default") {}
 SlotMachine::SlotMachine(std::string _slot_id) : SlotMachine::SlotMachine(DefaultReelCount, _slot_id) {}
 SlotMachine::SlotMachine(int total_reels) : SlotMachine::SlotMachine(total_reels, "Default") {}
-
-SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id) 
-   : evaluator{ total_reels }, tracker{configuration.get_starting_credits(), _slot_id} {
+SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id) : SlotMachine::SlotMachine(total_reels, _slot_id, true) {}
+SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id, const bool _verbose)
+   : evaluator{ total_reels }, tracker{ configuration.get_starting_credits(), _slot_id }, verbose{ _verbose }{
    //Loading reels with 0-9, can be changed
    for (int reelindex = 0; reelindex < total_reels; reelindex++) {
       reels.push_back(Reel{});
@@ -15,28 +15,24 @@ SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id)
    }
    reelview = ReelView{ reels, reelStops }; //Needs to be done after the reels are initialized (the for loop above)
    //Configurator is default constructed
-} 
+}
 
 
 void SlotMachine::printViewingWindow() {
-   static size_t rounds_won_so_far = 0;
-   std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
-   reelview.printReelView(reels, reelStops);
-   std::cout << "---END VIEWING WINDOW---" << std::endl;
-   tracker.printgameStats();
-   reelview.printPayLineCombos();
+   if (verbose) {
+      static size_t rounds_won_so_far = 0;
+      std::cout << "---CURRENT VIEWING WINDOW---" << std::endl;
+      reelview.printReelView(reels, reelStops);
+      std::cout << "---END VIEWING WINDOW---" << std::endl;
+      tracker.printgameStats();
+      reelview.printPayLineCombos();
 
-   if (rounds_won_so_far < tracker.getRoundsWon()) {
-      std::cout << "\n \n \n YOU WON!!!! \n YOU WON!!!! \n YOU WON!!!!" << std::endl;
-      rounds_won_so_far = tracker.getRoundsWon();
+      if (rounds_won_so_far < tracker.getRoundsWon()) {
+         std::cout << "\n \n \n YOU WON!!!! \n YOU WON!!!! \n YOU WON!!!!" << std::endl;
+         rounds_won_so_far = tracker.getRoundsWon();
+      }
+
    }
-
-}
-
-void SlotMachine::printInputMenu()
-{
-   std::cout << "PRESS 'q' TO QUIT" << std::endl;
-   std::cout << "BET DESIRED NUMBER OF PAYLINES (defaulted to max bet with invalid input)" << std::endl;
 }
 
 void SlotMachine::spinReels()
@@ -50,7 +46,7 @@ void SlotMachine::spinReels()
    //NonDeterministic Method being used below
    std::random_device rd;
    std::mt19937 generator(rd());
-   std::uniform_int_distribution<int> distribution(0, 9);
+   std::uniform_int_distribution<int> distribution(0, 9); //THIS SHOULD NOT BE 0,9 THIS SHOULD BE THE TOTAL REEL SIZE FOR EACH REEL
 
    for (unsigned int reel_index{ 0 }; reel_index < reels.size(); ++reel_index) {
       reelStops[reel_index] = distribution(generator);
@@ -66,7 +62,7 @@ void SlotMachine::checkWin()
    if (jackpot_total > 0) {
       tracker.gameWon(jackpot_total);
    }
-   
+
 }
 
 void SlotMachine::playRound(const char& cmd)
@@ -89,7 +85,7 @@ void SlotMachine::playRound(const char& cmd)
 
 void SlotMachine::printReelInfo()
 {
-   for ( auto & reel : reels) {
+   for (auto& reel : reels) {
       std::cout << "REEL: ";
       for (const auto& symbol : reel.getStrip()) {
          std::cout << symbolToString(symbol) << " ";
