@@ -13,7 +13,7 @@ public:
 
    ~CreditStateTracker();
 
-   bool gamePlayed(const size_t& bet_price);
+   bool gameRequested(const size_t& bet_price);
    void gameWon(const size_t& credits_won);
    void updateGameStats();
    void printgameStats();

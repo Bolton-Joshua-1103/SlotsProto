@@ -14,7 +14,7 @@ CreditStateTracker::~CreditStateTracker() {
    outputfile.close();
 }
 
-bool CreditStateTracker::gamePlayed(const size_t& bet_price)
+bool CreditStateTracker::gameRequested(const size_t& bet_price)
 {
    if (true /*credits >= bet_price*/) {
       const int _bet_price_int = static_cast<int>(bet_price); //Change credits too size_t eventually

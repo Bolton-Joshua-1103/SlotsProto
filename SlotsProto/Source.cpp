@@ -3,6 +3,15 @@
 #include <cctype>
 #include "SlotMachine.h"
 
+/*
+THINGS TO DO:
+   - IMPLEMENT BOOST FOR COMMAND LINE PARSING
+   - COMBINE COMBINATION EVAULATOR AND NUMERICAL CONFIGURATOR, CE should be inside of NC
+   - Add funcationality to provide paytable from external csv file
+   - Implement RStudio program to use command line arguements to run a # of Slots and report on their aggregated data
+
+*/
+
 
 using namespace std;
 bool done = false;

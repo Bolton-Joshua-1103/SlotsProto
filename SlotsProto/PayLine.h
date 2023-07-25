@@ -12,6 +12,6 @@ public:
    inline void setActive(bool val)  {active_payline = val; }
 private:
    std::vector<int> indicies;
-   bool active_payline = false; //This determines if this is an active payline
+   bool active_payline = false;
 };
 

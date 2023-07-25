@@ -71,15 +71,12 @@ void SlotMachine::checkWin()
 
 void SlotMachine::playRound(const char& cmd)
 {
-   //Need to know how many paylines were bet. Maybe a parameter?
-   // Once we know how many paylines are bet on we just activate the paylines
-   // in ascending order. IF they bet 2 paylines then they always bet for 1, 2. NEver 3
-   //This means I need to activate desired paylines then deactive once we are done spinning
+   //Paylines are activated, game is played, paylines are deactivated
    int num_paylines_bet = reelview.validatePayLineNumInput(cmd);
    reelview.activatePayLines(num_paylines_bet);
    int total_bet_price = num_paylines_bet * configuration.get_cost_per_payline();
 
-   if (tracker.gamePlayed(total_bet_price)) {
+   if (tracker.gameRequested(total_bet_price)) {
       spinReels();
       reelview.updateReelView(reels, reelStops); //This updates the reelview with the newly spun reels
       checkWin();//Checks to see if new reel combination is winning and pays credits back
