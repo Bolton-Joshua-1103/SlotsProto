@@ -2,6 +2,20 @@
 
 Simulates a simple slot machine.
 
+Takes command line arguements and outputs round by round stats to desiredfile
+
+CommandLine: SlotsProto.exe --output {PREFIX OF FILE} --input {NUMBER OF SLOT MACHINES TO TEST} {HOW MANY ROUNDS TO PLAY ON EACH SLOT MACHINE}
+This command will create the same number of files as slot machine requested with format of "{PREFIX OF FILE} + {#}data.txt" as the file name. All the way up till the desired number of files.
+Example: [SlotsProto.exe --output newSlotDesign --input 100 10000]
+This command will create 100 new slow machines (and thus files) all titled (newSlotDesign1data.txt, newSlotDesign2data.txt,....,newSlotDesign100Data.txt) where each file contains 10,000 lines of data.
+This data then can be interpreted through a seperate program or it can be agregatted and anlayzed in data visualization tools like RStudio. This is my approach and future additions to the program will
+add a report for each slot machine and add a report for all the aggegrated data created by the slot machines.
+
+Each file will have rows of data seperated by tab delimeteres. The rows represent indiviudal rounds and reflect state variables as well as calculated hit rate and PBR:
+The columns of the data set are: 
+[SlotID{string}]  [RoundsPlayed{int}] [RoundsWon{int}] [CreditsUsed{int}] [CreditsWon{int}] [PayBackRate{int}] [HitRate{int}]
+
+
 The program supports:
 Different reel sizes, reel configurations and reel counts.
 Variable paylines that use lambdas to denote payline orientations
