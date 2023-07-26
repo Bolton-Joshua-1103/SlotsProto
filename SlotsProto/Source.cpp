@@ -71,25 +71,35 @@ int main(int argc, const char* argv[]) {
    auto&& variables_map = parseCommandLine(argc, argv);
    std::string output_var = variables_map["output"].as<std::string>();
    std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
-
-
-   /*SlotMachine myslot{3, "Slot1", false};
-   myslot.printViewingWindow();
-
-   char cmd{};
-   while (!done) {
-      if (_kbhit()) {
-         system("cls");
-         cmd = _getch();
-         switch (cmd)
-         {
-         case('q'):
-            done = true;
-            break;
-         default:
-            myslot.playRound(cmd);
-            break;
-         }
+   //input_vars[0] = # of slot machines
+   //input _vars[1] = # of runs for each slot machine
+   const int slotNum = input_vars[0];
+   const int slotRuns = input_vars[1];
+   for (int index = 0; index < slotNum; ++index) {
+      SlotMachine currentSlot{ 3, (output_var + to_string(index)), false};
+      for (int round_index = 0; round_index < slotRuns; ++round_index) {
+         currentSlot.playRound(3);
       }
-   }*/
+   }
+
+
+   //SlotMachine myslot{3, "Slot0", true};
+   //myslot.printViewingWindow();
+
+   //char cmd{};
+   //while (!done) {
+   //   if (_kbhit()) {
+   //      system("cls");
+   //      cmd = _getch();
+   //      switch (cmd)
+   //      {
+   //      case('q'):
+   //         done = true;
+   //         break;
+   //      default:
+   //         myslot.playRound(cmd);
+   //         break;
+   //      }
+   //   }
+   //}
 }

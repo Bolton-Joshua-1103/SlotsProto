@@ -28,6 +28,10 @@ void ReelView::populatePayLines()
       size of reels.
    */
    const size_t reelCount = viewingVector.size();
+
+   /*THESE NEED TO BE CHANGED OT NOT USE THE STATIC KEYWORD
+      MAKE EACH PAYLINE LAMBDA JUST RETURN A VECTOR WITH THE CORRECT # and Value of indicies 0 < val < reel_count
+   */
    payLines.push_back(PayLine{ [](int starting_index) {return starting_index; }, (reelCount /2) ,reelCount });// "Middle Payline"
    payLines.push_back(PayLine{ [](int starting_index) {static int increment = 0;  return starting_index + increment++; }, 0,reelCount }); //Upper left to Lower right
    payLines.push_back(PayLine{ [](int starting_index) {static int increment = 0;  return starting_index + increment--; }, reelCount -1, reelCount }); //LowerLeft to Upper RIght
@@ -101,7 +105,7 @@ void ReelView::populatePayLineCombos() {
       for (size_t reel_index{ 0 }; reel_index < currentPayLine.size(); reel_index++) {
          //lopoing throough every reel and need to assign from correct index
          auto& payLineIndex = currentPayLine.getIndicies()[reel_index];
-         currentPayLineCombo.symbols.push_back(viewingVector[payLineIndex][reel_index]);
+         currentPayLineCombo.symbols.push_back(viewingVector[payLineIndex][reel_index]); //Problem here
       }
    }
 }
