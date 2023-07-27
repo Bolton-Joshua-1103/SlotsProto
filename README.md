@@ -24,11 +24,17 @@ The columns of the data set are:
 
 
 The program supports:
+
 Different reel sizes, reel configurations and reel counts.
-Variable paylines that use lambdas to denote payline orientations
-Boost command line parsing to determine ouput such as, # of slot machines to run, how many rounds to run, whether to print output to command line, and fileformat of outputfile. 
-Prints to output logs and calculates state varaibles like credits spent, credits earned, rounds won, rounds played, hitrate, paybackrate
-Currently has built in support for a paytable for any number of reels. This 'default' paytable has a 1.0 PBR and hit rate dependent on the number of reels selected. The Hit rate is 3% when there are 3 reels.
+
+Variable paylines that use lambdas to denote payline orientations.
+
+Boost command line parsing to determine ouput such as, # of slot machines to run, how many rounds to run, as well as file name and path of outputfile. 
+
+Prints to output logs and calculates state varaibles like credits spent, credits earned, rounds won, rounds played, hitrate, paybackrate.
+
+Currently has built in support for a paytable for any number of reels. This 'default' paytable has a 1.0 PBR and hit rate dependent on the number of reels selected. The Hit rate is 3% when there are 3 reels [HitRate = #ofReels*(1/10^(#ofReels-1))].
+
 
 
 Future features intended for addition include:
