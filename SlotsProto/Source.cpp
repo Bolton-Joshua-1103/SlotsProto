@@ -9,16 +9,17 @@
 
 /*
 THINGS TO DO:
-   - IMPLEMENT LOOPING BASED ON COMMAND LINE ARGUEMENTS, WHAT SHOULD THEY TYPE?
-      -  CMDLINE(SlotsProt.exe -o Slot -i 1000 100,000) "slot" = slot1.csv, slot2.csv...slot1000.csv with 100,000 rounds played each
-   - Need a flag to start/stop output. I think COUT is taking alot of my time in the loop...
-   - COMBINE COMBINATION EVAULATOR AND NUMERICAL CONFIGURATOR, CE should be inside of NC [Not 100% necessary]
-   - Add funcationality to provide paytable from external csv file
    - Implement RStudio program to use command line arguements to run a # of Slots and report on their aggregated data
+   - Add funcationality to provide paytable from external csv file
+   - Implement slot options from command line --input #ofSlot, #ofRounds, #ofReels, PayLineConfig.csv
+   - COMBINE COMBINATION EVAULATOR AND NUMERICAL CONFIGURATOR, CE should be inside of NC [Not 100% necessary]
+
 
 
 DONE:
    - IMPLEMENT BOOST FOR COMMAND LINE PARSING
+   - IMPLEMENT LOOPING BASED ON COMMAND LINE ARGUEMENTS
+   - Need a flag to start/stop output.
 */
 
 
@@ -54,7 +55,7 @@ boost::program_options::variables_map parseCommandLine(int argc, const char* arg
          std::cout << "CommandLine: SlotsProto.exe --output{FolderRoot\FilePrefix} --input{#MachinesToTest} {#RoundsToPlay}" << std::endl;
          std::cout << "This command will create the same number of files as slot machine requested with format of \"{PREFIX OF FILE} + {#}data.txt\" as the file name.All the way up till the desired number of files." << std::endl;
          std::cout << "Example : [SlotsProto.exe --output newSlotDesign --input 100 10000]" << std::endl;
-         std::cout << "This command will create 100 new slow machines(and thus files) all titled(newSlotDesign1data.txt, newSlotDesign2data.txt, ...., newSlotDesign100Data.txt) where each file contains 10,000 lines of data." << std::endl;
+         std::cout << "This command will create 100 new slot machines(and thus files) all titled(newSlotDesign1data.txt, newSlotDesign2data.txt, ...., newSlotDesign100Data.txt) where each file contains 10,000 lines of data." << std::endl;
          std::cout << description << std::endl;
       }
    }
@@ -79,7 +80,6 @@ int main(int argc, const char* argv[]) {
    if (variables_map.count("output")) {
       output_var = variables_map["output"].as<std::string>();
    }
-
 
    if (variables_map.count("input")) {
       std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
