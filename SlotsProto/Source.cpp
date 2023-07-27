@@ -74,38 +74,41 @@ bool done = false;
 int main(int argc, const char* argv[]) {
 
    
-
+   // I WANT TO BE ABLE TO RUN THE PROGRAM WITH NO COMMAND LINE ARGUEMTNS OR SOME, IS THIS POSSIBLE? DO I NEED TO CATCH?
    auto&& variables_map = parseCommandLine(argc, argv);
    std::string output_var = variables_map["output"].as<std::string>();
    std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
 
-
-   const int slotNum = input_vars[0];    //input_vars[0] = # of slot machines
-   const int slotRuns = input_vars[1];    //input _vars[1] = # of runs for each slot machine
-   for (int index = 1; index <= slotNum; ++index) {
-      SlotMachine currentSlot{ 3, (output_var + to_string(index)), false};
-      for (int round_index = 0; round_index < slotRuns; ++round_index) {
-         currentSlot.playRound(3);
+   if (input_vars.size() >= 2) {
+      const int slotNum = input_vars[0];    //input_vars[0] = # of slot machines
+      const int slotRuns = input_vars[1];    //input _vars[1] = # of runs for each slot machine
+      for (int index = 1; index <= slotNum; ++index) {
+         SlotMachine currentSlot{ 3, (output_var + to_string(index)), false };
+         for (int round_index = 0; round_index < slotRuns; ++round_index) {
+            currentSlot.playRound(3);
+         }
       }
    }
 
+   else {
+      if (output_var.empty()) { output_var = "defaultSlot"; }
+      SlotMachine myslot{ 3, output_var, true };
+      myslot.printViewingWindow();
 
-   SlotMachine myslot{3, "Slot0", true};
-   myslot.printViewingWindow();
-
-   char cmd{};
-   while (!done) {
-      if (_kbhit()) {
-         system("cls");
-         cmd = _getch();
-         switch (cmd)
-         {
-         case('q'):
-            done = true;
-            break;
-         default:
-            myslot.playRound(cmd);
-            break;
+      char cmd{};
+      while (!done) {
+         if (_kbhit()) {
+            system("cls");
+            cmd = _getch();
+            switch (cmd)
+            {
+            case('q'):
+               done = true;
+               break;
+            default:
+               myslot.playRound(cmd);
+               break;
+            }
          }
       }
    }

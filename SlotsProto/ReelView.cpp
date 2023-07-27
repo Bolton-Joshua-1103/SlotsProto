@@ -1,5 +1,6 @@
 #include "ReelView.h"
 #include <iostream>
+#include <assert.h>
 
 ReelView::ReelView() {
    //This should probably never be called. You need a reel and reel stop info to know what to do
@@ -29,12 +30,36 @@ void ReelView::populatePayLines()
    */
    const size_t reelCount = viewingVector.size();
 
-   /*THESE NEED TO BE CHANGED OT NOT USE THE STATIC KEYWORD
-      MAKE EACH PAYLINE LAMBDA JUST RETURN A VECTOR WITH THE CORRECT # and Value of indicies 0 < val < reel_count
-   */
-   payLines.push_back(PayLine{ [](int starting_index) {return starting_index; }, (reelCount /2) ,reelCount });// "Middle Payline"
-   payLines.push_back(PayLine{ [](int starting_index) {static int increment = 0;  return starting_index + increment++; }, 0,reelCount }); //Upper left to Lower right
-   payLines.push_back(PayLine{ [](int starting_index) {static int increment = 0;  return starting_index + increment--; }, reelCount -1, reelCount }); //LowerLeft to Upper RIght
+   //Horizontal BASE payline
+   payLines.push_back(PayLine{ [](int reelcount) {
+      int middle_reel_index = reelcount / 2; //3 reels = index 1, 4 reels = index 2, 5 reels = index 2
+      std::vector<int> index_vec;
+      for (int i = 0; i < reelcount; ++i) {
+         index_vec.push_back(middle_reel_index);
+      }
+      assert(index_vec.size() == reelcount);
+      return index_vec; }, reelCount });
+
+   // Diagonal Top Left to Bottom Right
+   payLines.push_back(PayLine{ [](int reelcount) {
+      int top_left_index = 0; //3 reels = index 1, 4 reels = index 2, 5 reels = index 2
+      std::vector<int> index_vec;
+      for (int i = 0; i < reelcount; ++i) {
+         index_vec.push_back(top_left_index++); //Postfix ++, should increment after
+      }
+      assert(index_vec.size() == reelcount);
+      return index_vec; }, reelCount });
+
+   // Diagonal Bottom Left to Top Right
+   payLines.push_back(PayLine{ [](int reelcount) {
+      int bottom_left_index = reelcount-1;
+      std::vector<int> index_vec;
+      for (int i = 0; i < reelcount; ++i) {
+         index_vec.push_back(bottom_left_index--);
+      }
+      assert(index_vec.size() == reelcount);
+      return index_vec; }, reelCount });
+
    //printPayLineIndices(); //For debugging to see each payline index
 }
 

@@ -5,7 +5,7 @@ class PayLine
 {
 public:
    PayLine();
-   PayLine(std::function<int(int)>,  size_t, const size_t&);
+   PayLine(std::function<std::vector<int>(int)>, const size_t&);
    const std::vector<int>& getIndicies() const;
    size_t size() const;
    inline bool isActive()  const {return active_payline; }
