@@ -17,7 +17,7 @@ THINGS TO DO:
    - Implement RStudio program to use command line arguements to run a # of Slots and report on their aggregated data
 
 
-DONE: 
+DONE:
    - IMPLEMENT BOOST FOR COMMAND LINE PARSING
 */
 
@@ -51,7 +51,7 @@ boost::program_options::variables_map parseCommandLine(int argc, const char* arg
          std::cout << "Slot Machine Simulator, can either be played in the console or run for desired rounds via command line" << std::endl;
          std::cout << "Takes command line arguements and outputs round by round stats to desiredfile." << std::endl;
          std::cout << "If no inputs from command line are given then console play is defaulted to. Example: [SlotsProto.exe --output slot1] will default to console play and store data in slot1data.txt" << std::endl;
-         std::cout << "CommandLine: SlotsProto.exe --output{FilePrefix} --input{#MachinesToTest} {#RoundsToPlay}" << std::endl;
+         std::cout << "CommandLine: SlotsProto.exe --output{FolderRoot\FilePrefix} --input{#MachinesToTest} {#RoundsToPlay}" << std::endl;
          std::cout << "This command will create the same number of files as slot machine requested with format of \"{PREFIX OF FILE} + {#}data.txt\" as the file name.All the way up till the desired number of files." << std::endl;
          std::cout << "Example : [SlotsProto.exe --output newSlotDesign --input 100 10000]" << std::endl;
          std::cout << "This command will create 100 new slow machines(and thus files) all titled(newSlotDesign1data.txt, newSlotDesign2data.txt, ...., newSlotDesign100Data.txt) where each file contains 10,000 lines of data." << std::endl;
@@ -73,13 +73,16 @@ bool done = false;
 
 int main(int argc, const char* argv[]) {
 
-   
-   // I WANT TO BE ABLE TO RUN THE PROGRAM WITH NO COMMAND LINE ARGUEMTNS OR SOME, IS THIS POSSIBLE? DO I NEED TO CATCH?
+   std::string output_var = "defaultSlot";
    auto&& variables_map = parseCommandLine(argc, argv);
-   std::string output_var = variables_map["output"].as<std::string>();
-   std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
 
-   if (input_vars.size() >= 2) {
+   if (variables_map.count("output")) {
+      output_var = variables_map["output"].as<std::string>();
+   }
+
+
+   if (variables_map.count("input")) {
+      std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
       const int slotNum = input_vars[0];    //input_vars[0] = # of slot machines
       const int slotRuns = input_vars[1];    //input _vars[1] = # of runs for each slot machine
       for (int index = 1; index <= slotNum; ++index) {
@@ -89,9 +92,7 @@ int main(int argc, const char* argv[]) {
          }
       }
    }
-
    else {
-      if (output_var.empty()) { output_var = "defaultSlot"; }
       SlotMachine myslot{ 3, output_var, true };
       myslot.printViewingWindow();
 

@@ -69,7 +69,7 @@ void CreditStateTracker::updateHitRate()
 
 void CreditStateTracker::configureLoggingFile()
 {
-   outputfile.open(slot_id + "data"); //Open file
+   outputfile.open(slot_id + "data.txt"); //Open file
    //Print variable headers
    outputfile << "SlotID" << "\t" << "RoundsPlayed" << "\t" << "RoundsWon" << "\t" << "CreditsUsed"
       << "\t" << "CreditsWon" << "\t" << "PayBackRate" << "\t" << "HitRate" << "\n";
