@@ -33,7 +33,7 @@ boost::program_options::variables_map parseCommandLine(int argc, const char* arg
       options_description description{ "Options" };
       description.add_options()
          ("help,h", "Help info")
-         ("output,o", value<std::string>(), "Output file.  Default: masterLog.txt")
+         ("output,o", value<std::string>(), "Output file prefix, will always be ammended with #data  Default: default1data.txt")
          ("input,i", value<std::vector<int>>()->multitoken(), "Input Variables: # of Slots Desired, # of rounds Played Per Slot");
 
       // Allow a list of input files to be passed without a specific command line option
@@ -48,8 +48,13 @@ boost::program_options::variables_map parseCommandLine(int argc, const char* arg
       // Print the help to cout if help option specified
       if (variables_map.count("help"))
       {
-         std::cout << "Utility program to combine multiple log files into a single log file." << std::endl;
-         std::cout << "Assumes that individual log files are sorted (with numeric data as first field)." << std::endl;
+         std::cout << "Slot Machine Simulator, can either be played in the console or run for desired rounds via command line" << std::endl;
+         std::cout << "Takes command line arguements and outputs round by round stats to desiredfile." << std::endl;
+         std::cout << "If no inputs from command line are given then console play is defaulted to. Example: [SlotsProto.exe --output slot1] will default to console play and store data in slot1data.txt" << std::endl;
+         std::cout << "CommandLine: SlotsProto.exe --output{FilePrefix} --input{#MachinesToTest} {#RoundsToPlay}" << std::endl;
+         std::cout << "This command will create the same number of files as slot machine requested with format of \"{PREFIX OF FILE} + {#}data.txt\" as the file name.All the way up till the desired number of files." << std::endl;
+         std::cout << "Example : [SlotsProto.exe --output newSlotDesign --input 100 10000]" << std::endl;
+         std::cout << "This command will create 100 new slow machines(and thus files) all titled(newSlotDesign1data.txt, newSlotDesign2data.txt, ...., newSlotDesign100Data.txt) where each file contains 10,000 lines of data." << std::endl;
          std::cout << description << std::endl;
       }
    }
@@ -68,14 +73,16 @@ bool done = false;
 
 int main(int argc, const char* argv[]) {
 
+   
+
    auto&& variables_map = parseCommandLine(argc, argv);
    std::string output_var = variables_map["output"].as<std::string>();
    std::vector<int> input_vars = variables_map["input"].as<std::vector<int>>();
-   //input_vars[0] = # of slot machines
-   //input _vars[1] = # of runs for each slot machine
-   const int slotNum = input_vars[0];
-   const int slotRuns = input_vars[1];
-   for (int index = 0; index < slotNum; ++index) {
+
+
+   const int slotNum = input_vars[0];    //input_vars[0] = # of slot machines
+   const int slotRuns = input_vars[1];    //input _vars[1] = # of runs for each slot machine
+   for (int index = 1; index <= slotNum; ++index) {
       SlotMachine currentSlot{ 3, (output_var + to_string(index)), false};
       for (int round_index = 0; round_index < slotRuns; ++round_index) {
          currentSlot.playRound(3);
@@ -83,23 +90,23 @@ int main(int argc, const char* argv[]) {
    }
 
 
-   //SlotMachine myslot{3, "Slot0", true};
-   //myslot.printViewingWindow();
+   SlotMachine myslot{3, "Slot0", true};
+   myslot.printViewingWindow();
 
-   //char cmd{};
-   //while (!done) {
-   //   if (_kbhit()) {
-   //      system("cls");
-   //      cmd = _getch();
-   //      switch (cmd)
-   //      {
-   //      case('q'):
-   //         done = true;
-   //         break;
-   //      default:
-   //         myslot.playRound(cmd);
-   //         break;
-   //      }
-   //   }
-   //}
+   char cmd{};
+   while (!done) {
+      if (_kbhit()) {
+         system("cls");
+         cmd = _getch();
+         switch (cmd)
+         {
+         case('q'):
+            done = true;
+            break;
+         default:
+            myslot.playRound(cmd);
+            break;
+         }
+      }
+   }
 }
