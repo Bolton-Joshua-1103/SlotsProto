@@ -14,7 +14,7 @@ public:
    SlotMachine(const std::string);
    SlotMachine(const int);
    SlotMachine(const int, const std::string);
-   SlotMachine(const int, const std::string, const bool);
+   SlotMachine(const int, const std::string, const std::string&, const bool);
 
    void printViewingWindow();
    void playRound(const char&);

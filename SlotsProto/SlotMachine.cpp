@@ -5,9 +5,9 @@
 SlotMachine::SlotMachine() : SlotMachine::SlotMachine(DefaultReelCount, "Default") {}
 SlotMachine::SlotMachine(std::string _slot_id) : SlotMachine::SlotMachine(DefaultReelCount, _slot_id) {}
 SlotMachine::SlotMachine(int total_reels) : SlotMachine::SlotMachine(total_reels, "Default") {}
-SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id) : SlotMachine::SlotMachine(total_reels, _slot_id, true) {}
-SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id, const bool _verbose)
-   : evaluator{ total_reels }, tracker{ configuration.get_starting_credits(), _slot_id }, verbose{ _verbose }{
+SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id) : SlotMachine::SlotMachine(total_reels, _slot_id, _slot_id, true) {}
+SlotMachine::SlotMachine(const int total_reels, const std::string _slot_id, const std::string& _slot_root, const bool _verbose)
+   : evaluator{ total_reels }, tracker{ configuration.get_starting_credits(), _slot_id, _slot_root }, verbose{ _verbose }{
    //Loading reels with 0-9, can be changed
    for (int reelindex = 0; reelindex < total_reels; reelindex++) {
       reels.push_back(Reel{});

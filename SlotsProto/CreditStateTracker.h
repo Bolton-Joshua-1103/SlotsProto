@@ -9,7 +9,7 @@ public:
    
    //Constructors, always needs a starting amount of credits (which is determiend from the configuration)
    CreditStateTracker();
-   CreditStateTracker(size_t, std::string);
+   CreditStateTracker(size_t, std::string, const std::string&);
 
    ~CreditStateTracker();
 
@@ -35,6 +35,7 @@ public:
 private:
 
    //Slot identification and logging
+   std::string slot_root;
    std::string slot_id;
    std::ofstream outputfile;
 

@@ -1,12 +1,12 @@
 #include "CreditStateTracker.h"
 
 CreditStateTracker::CreditStateTracker() 
-   : CreditStateTracker(0 , "Default")
+   : CreditStateTracker(0 , "Default", "Default")
 {
 }
 
-CreditStateTracker::CreditStateTracker(size_t starting_credits, std::string  _slot_id) 
-   : credits(starting_credits), slot_id(_slot_id) {
+CreditStateTracker::CreditStateTracker(size_t starting_credits, std::string  _slot_id, const std::string& _slot_root) 
+   : credits(starting_credits), slot_id(_slot_id), slot_root(_slot_root) {
    configureLoggingFile();  
 }
 
@@ -69,7 +69,7 @@ void CreditStateTracker::updateHitRate()
 
 void CreditStateTracker::configureLoggingFile()
 {
-   outputfile.open(slot_id + "data.txt"); //Open file
+   outputfile.open(slot_root + ".txt"); //Open file
    //Print variable headers
    outputfile << "SlotID" << "\t" << "RoundsPlayed" << "\t" << "RoundsWon" << "\t" << "CreditsUsed"
       << "\t" << "CreditsWon" << "\t" << "PayBackRate" << "\t" << "HitRate" << "\n";
