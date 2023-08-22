@@ -22,6 +22,7 @@ THINGS TO DO:
 
 
 DONE:
+   - Introduced Async for concurrent slot runs
    - Implement RStudio program to use command line arguements to run a # of Slots and report on their aggregated data
    - IMPLEMENT BOOST FOR COMMAND LINE PARSING
    - IMPLEMENT LOOPING BASED ON COMMAND LINE ARGUEMENTS
@@ -109,10 +110,9 @@ int main(int argc, const char* argv[]) {
 
       std::vector<future<void>> futures;
       for (int index{ 0 }; index < slotNum; ++index) {
-         //function<void()> temp = [index = index, slot = slotMachineRun]() {slot(index); };
          futures.emplace_back(std::async(std::launch::async, slotMachineRun, index));//Starting threads as we build them, futures.wait() will determine when thread is rejoined.
       }
-      dbg(futures.size());
+      // dbg(futures.size());
       for (const auto& future : futures) {
          future.wait();
       }

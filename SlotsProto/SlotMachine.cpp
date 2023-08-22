@@ -46,7 +46,7 @@ void SlotMachine::spinReels()
    //NonDeterministic Method being used below
    std::random_device rd;
    std::mt19937 generator(rd());
-   std::uniform_int_distribution<int> distribution(0, 9); //THIS SHOULD NOT BE 0,9 THIS SHOULD BE THE TOTAL REEL SIZE FOR EACH REEL
+   std::uniform_int_distribution<int> distribution(0, 9); //THIS SHOULD NOT BE 0,9 WIP:THIS SHOULD BE THE TOTAL REEL SIZE FOR EACH REEL @@@
 
    for (unsigned int reel_index{ 0 }; reel_index < reels.size(); ++reel_index) {
       reelStops[reel_index] = distribution(generator);
@@ -74,8 +74,8 @@ void SlotMachine::playRound(const char& cmd)
 
    if (tracker.gameRequested(total_bet_price)) {
       spinReels();
-      reelview.updateReelView(reels, reelStops); //This updates the reelview with the newly spun reels
-      checkWin();//Checks to see if new reel combination is winning and pays credits back
+      reelview.updateReelView(reels, reelStops); //This updates the reelview and payline combos with the newly spun reels
+      checkWin();//Checks to see if new reel combination is winning and pays credits back, must be called after updateReelView
       tracker.updateGameStats(); //Updates teh game states after a round has been played and winning has been determined
       printViewingWindow(); //Prints out everything to window
 
