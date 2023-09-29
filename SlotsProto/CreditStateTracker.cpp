@@ -5,7 +5,7 @@ CreditStateTracker::CreditStateTracker()
 {
 }
 
-CreditStateTracker::CreditStateTracker(size_t starting_credits, std::string  _slot_id, const std::string& _slot_root) 
+CreditStateTracker::CreditStateTracker(double starting_credits, std::string  _slot_id, const std::string& _slot_root) 
    : credits(starting_credits), slot_id(_slot_id), slot_root(_slot_root) {
    configureLoggingFile();  
 }
@@ -14,23 +14,23 @@ CreditStateTracker::~CreditStateTracker() {
    outputfile.close();
 }
 
-bool CreditStateTracker::gameRequested(const size_t& bet_price)
+bool CreditStateTracker::gameRequested(const double& bet_price)
 {
    if (true /*credits >= bet_price*/) {
-      const int _bet_price_int = static_cast<int>(bet_price); //Change credits too size_t eventually
-      credits -= _bet_price_int; //Debugging mode, endless play}
-      credits_used += _bet_price_int;
+      //const int _bet_price_int = static_cast<int>(bet_price); //Change credits too size_t eventually
+      credits -= bet_price; //Debugging mode, endless play}
+      credits_used += bet_price;
       ++rounds_played;
       return true;
    }
    else return false;
 }
 
-void CreditStateTracker::gameWon(const size_t& _credits_won)
+void CreditStateTracker::gameWon(const double& _credits_won)
 {
-   const int _credits_won_int = static_cast<int>(_credits_won); //Change credits too size_t eventually
-   credits += _credits_won_int;
-   credits_won += _credits_won_int;
+   //const int _credits_won_int = static_cast<int>(_credits_won); //Change credits too size_t eventually
+   credits += _credits_won;
+   credits_won += _credits_won;
    ++rounds_won;
 }
 
@@ -59,7 +59,7 @@ void CreditStateTracker::printgameStats()
 
 void CreditStateTracker::updatePayBackRate()
 {
-   pay_back_rate = (float)credits_won / (float)credits_used;
+   pay_back_rate = credits_won / credits_used;
 }
 
 void CreditStateTracker::updateHitRate()
