@@ -58,7 +58,8 @@ void SlotMachine::spinReels()
 void SlotMachine::checkWin()
 {
    //This call below assumes you bet all paylines. Can change later (@@@)
-   size_t jackpot_total = evaluator.checkPayLineCombinations(reelview.getPayLineCombos());
+   auto jackpot_total = evaluator.checkPayLineCombinations(reelview.getPayLineCombos());
+   
    if (jackpot_total > 0) {
       tracker.gameWon(jackpot_total);
    }

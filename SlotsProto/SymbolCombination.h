@@ -5,6 +5,8 @@ class SymbolCombination
 {
 public:
    SymbolCombination();
+   SymbolCombination(std::initializer_list<int>);
+   SymbolCombination(std::initializer_list<symbol>);
    std::vector<symbol> symbols;
    bool operator <(const SymbolCombination&) const;
    inline bool isActive() const { return active_payline; }

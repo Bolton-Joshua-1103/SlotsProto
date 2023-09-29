@@ -104,7 +104,7 @@ int main(int argc, const char* argv[]) {
       function<void(int)> slotMachineRun = [slotRuns, slotReels, output_path](int index) {
          SlotMachine currentSlot{ slotReels, "SlotData" + to_string(index), (output_path + to_string(index)), false };
          for (int round_index = 0; round_index < slotRuns; ++round_index) {
-            currentSlot.playRound(3);
+            currentSlot.playRound(3); //Needs to run with default reels and paytable right now. Working on paytable functionality.
          }
       };
 
